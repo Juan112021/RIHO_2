@@ -1,30 +1,33 @@
 # RIHO_2 - Sistema de Reporte de Incidencias Hospitalarias
 
-## Perspectiva General
+## Descripción General
 
-RIHO_2 es una solución integral de software diseñada para la gestión proactiva, mitigación y reporte de fallos y eventos en el ecosistema de una Institución Prestadora de Servicios de Salud (IPS). El sistema está enfocado en reducir drásticamente los tiempos de respuesta técnica ante incidencias en la infraestructura informática, asegurando que la continuidad de la atención al paciente nunca se vea comprometida por fallos de TI.
+Solución de software para la gestión, mitigación y reporte de fallos tecnológicos en entornos de IPS. El sistema optimiza los tiempos de respuesta técnica para asegurar la continuidad asistencial y operativa en infraestructuras críticas de salud.
 
-Este proyecto constituye el Entregable y Sustentación Final para la asignatura de Ingeniería de Software 1 / Sistemas Operativos.
+---
 
-## Funcionalidades Clave
+## Especificaciones Técnicas
 
-*   **Módulo de Reportes en Tiempo Real:** Notificación instantánea y categorizada de incidencias en la infraestructura técnica para una intervención táctica oportuna.
-*   **Gestión de Estados y Seguimiento Continuo:** Trazabilidad completa desde la apertura del incidente, asignación de soporte, hasta el cierre de la orden de servicio.
-*   **Seguridad de Grado Hospitalario:** Protección de datos y registros clínicos conforme a las normativas vigentes de privacidad en salud.
-*   **Panel Analítico de Infraestructura:** Identificación proactiva de patrones de fallas repetitivas para la optimización y prevención en el mediano plazo.
+| Componente | Tecnología | Rol en la Arquitectura |
+| :--- | :--- | :--- |
+| **Backend** | PHP | Arquitectura modular y procesamiento lógico |
+| **Base de Datos** | SQL Server | Modelo relacional, consultas avanzadas (CROSS/OUTER APPLY) |
+| **Interface** | HTML5 / Tailwind CSS | UI corporativa con Glassmorphic y diseño responsive |
+| **Interactividad** | JavaScript | Consumo asíncrono de API y lógica del lado del cliente |
 
-## Stack Tecnológico
+---
 
-El sistema ha sido estructurado bajo una arquitectura cliente-servidor robusta y eficiente, optimizada para entornos corporativos:
+## Funcionalidades Principales
 
-*   **Backend:** PHP (Arquitectura modular para el procesamiento lógico y gestión de peticiones).
-*   **Base de Datos:** SQL Server (Modelado relacional avanzado, optimización de consultas mediante CROSS/OUTER APPLY y alta disponibilidad).
-*   **Frontend (Landing & UI):** HTML5, Tailwind CSS (Efectos modernos de Glassmorphism, animaciones fluidas y diseño responsive) y JavaScript (Interactividad y consumo asíncrono).
+*   **Reportes en Tiempo Real:** Notificación y categorización inmediata de incidencias.
+*   **Gestión de Estados:** Trazabilidad completa desde la apertura hasta el cierre del caso.
+*   **Seguridad Clínica:** Protección estricta de registros bajo normativas de salud.
+*   **Panel Analítico:** Identificación de patrones de falla para mantenimiento preventivo.
 
-## Despliegue y Visualización de la Landing Page
+---
 
-La presentación académica y ejecutiva del proyecto cuenta con una interfaz web integrada en la raíz. Para visualizarla localmente de forma óptima:
+## Guía de Inicio Rápido
 
-1. Clona este repositorio:
+1. **Clonar el repositorio:**
 ```bash
    git clone [https://github.com/Juan112021/RIHO_2.git](https://github.com/Juan112021/RIHO_2.git)
