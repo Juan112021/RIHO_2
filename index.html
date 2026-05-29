@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>RIHO_2 | Sistema de Reporte de Incidencias Hospitalarias</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#000000",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#0b1c30",
+                        "outline-variant": "#c6c6cd",
+                        "secondary": "#0051d5",
+                        "on-error": "#ffffff",
+                        "on-tertiary-container": "#75859d",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#0b1c30",
+                        "inverse-surface": "#303032",
+                        "primary-container": "#131b2e",
+                        "surface-variant": "#e4e2e4",
+                        "outline": "#76777d",
+                        "on-primary-fixed": "#131b2e",
+                        "surface": "#fcf8fa",
+                        "on-background": "#1b1b1d",
+                        "tertiary-fixed": "#d3e4fe",
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#fefcff",
+                        "surface-container": "#f0edef",
+                        "surface-container-highest": "#e4e2e4",
+                        "surface-container-high": "#eae7e9",
+                        "error": "#ba1a1a",
+                        "primary": "#000000",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "primary-fixed": "#dae2fd",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#f6f3f5",
+                        "on-surface-variant": "#45464d",
+                        "inverse-primary": "#bec6e0",
+                        "background": "#fcf8fa",
+                        "tertiary-fixed-dim": "#b7c8e1",
+                        "inverse-on-surface": "#f3f0f2",
+                        "surface-bright": "#fcf8fa",
+                        "secondary-container": "#316bf3",
+                        "on-secondary-fixed": "#00174b",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#dbe1ff",
+                        "on-tertiary-fixed-variant": "#38485d",
+                        "surface-dim": "#dcd9db",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#565e74",
+                        "on-surface": "#1b1b1d",
+                        "primary-fixed-dim": "#bec6e0",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "on-primary-container": "#7c839b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "64px",
+                        "md": "24px",
+                        "lg": "40px",
+                        "xs": "4px",
+                        "base": "8px",
+                        "gutter": "24px",
+                        "sm": "12px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"], "headline-md": ["Inter"], "headline-sm": ["Inter"], "body-md": ["Inter"], "body-lg": ["Inter"], "label-md": ["Inter"], "headline-lg": ["Inter"], "display-lg": ["Inter"], "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        :root {
+            --transition-main: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-15px) scale(1.01);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        /* Corregido: Visibilidad garantizada por defecto */
+        .animate-reveal {
+            opacity: 1;
+            transform: translateY(0);
+            transition: var(--transition-main);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: var(--transition-main);
+        }
+
+        .glass-panel:hover {
+            background: rgba(255, 255, 255, 0.6);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.1);
+        }
+
+        .glow-pulse {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 81, 213, 0.12) 0%, rgba(255, 255, 255, 0) 70%);
+            border-radius: 50%;
+            z-index: -1;
+            filter: blur(60px);
+            pointer-events: none;
+        }
+
+        .shimmer-btn {
+            background-image: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+            background-size: 200% 100%;
+            transition: var(--transition-main);
+        }
+
+        .shimmer-btn:hover {
+            animation: shimmer 1.5s infinite;
+        }
+
+        .hero-floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Corregido: Elementos internos visibles */
+        .stagger-item {
+            opacity: 1;
+            transform: translateY(0);
+            transition: var(--transition-main);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background text-on-background font-body-md overflow-x-hidden selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+    <div class="glow-pulse" id="glow-1" style="top: -100px; right: -100px;"></div>
+    <div class="glow-pulse" id="glow-2" style="bottom: -100px; left: -100px;"></div>
+
+    <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-surface/80 backdrop-blur-md border-b border-outline-variant/20"
+        id="main-nav">
+        <div class="flex justify-between items-center w-full px-md md:px-lg max-w-container-max mx-auto h-20"
+            id="nav-container">
+            <div class="flex items-center gap-base">
+                <span class="text-headline-md font-headline-md font-bold text-primary tracking-tight">RIHO_2</span>
+            </div>
+            <div class="hidden md:flex items-center gap-lg">
+                <a class="text-on-surface-variant font-label-md hover:text-secondary transition-all duration-300"
+                    href="#project-info">Información del Proyecto</a>
+                <a class="text-on-surface-variant font-label-md hover:text-secondary transition-all duration-300"
+                    href="#features">Funcionalidades Clave</a>
+                <a class="text-on-surface-variant font-label-md hover:text-secondary transition-all duration-300"
+                    href="#downloads">Entregables</a>
+                <a class="text-on-surface-variant font-label-md hover:text-secondary transition-all duration-300"
+                    href="#team">Nuestro Equipo</a>
+            </div>
+            <div class="flex items-center gap-base">
+                <a class="hidden sm:flex items-center px-4 py-2 text-label-md text-secondary hover:bg-secondary/10 rounded-lg transition-all"
+                    href="https://github.com/Juan112021/RIHO_2" target="_blank">
+                    GitHub
+                </a>
+                <a class="shimmer-btn flex items-center px-6 py-2 bg-secondary text-on-secondary font-label-md rounded-lg shadow-md hover:bg-secondary-container transition-all"
+                    href="pdf/RIHO_2_Final.pdf" download>
+                    Comenzar
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="relative min-h-screen flex flex-col items-center justify-center pt-24 overflow-hidden px-md"
+            id="hero">
+            <div
+                class="container mx-auto max-w-container-max grid grid-cols-1 lg:grid-cols-2 gap-lg items-center relative z-10">
+                <div class="animate-reveal text-left">
+                    <div
+                        class="inline-flex items-center px-3 py-1 rounded-full bg-secondary/10 border border-secondary/20 text-secondary font-label-sm mb-md">
+                        <span class="material-symbols-outlined text-[16px] mr-1">clinical_notes</span>
+                        Excelencia en Salud
+                    </div>
+                    <h1 class="font-display-lg text-display-lg text-primary leading-tight mb-md">
+                        RIHO_2: Integridad Clínica y <span class="text-secondary">Continuidad Asistencial</span>
+                    </h1>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mb-lg">
+                        Optimizando el soporte tecnológico y el reporte de incidencias en entornos de IPS. Un sistema
+                        diseñado para la precisión operativa en infraestructuras críticas de salud.
+                    </p>
+                    <div class="flex flex-wrap gap-md">
+                        <a class="shimmer-btn px-8 py-4 bg-secondary text-on-secondary font-headline-sm rounded-xl shadow-lg hover:shadow-secondary/30 transition-all flex items-center gap-2"
+                            href="pdf/RIHO_2_Final.pdf" download>
+                            Ver Documentación
+                            <span class="material-symbols-outlined">description</span>
+                        </a>
+                        <a class="px-8 py-4 bg-white border border-outline-variant text-primary font-headline-sm rounded-xl hover:bg-surface-container-low transition-all flex items-center gap-2"
+                            href="https://github.com/Juan112021/RIHO_2" target="_blank">
+                            GitHub
+                            <span class="material-symbols-outlined">code</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="relative animate-reveal">
+                    <div class="relative w-full aspect-square flex items-center justify-center hero-floating">
+                        <div class="absolute inset-0 bg-secondary/10 rounded-full blur-[100px] scale-75 opacity-50">
+                        </div>
+                        <img alt="Visualización del Sistema Central RIHO_2"
+                            class="relative z-10 w-full h-auto drop-shadow-[0_25px_25px_rgba(0,0,0,0.1)] rounded-2xl"
+                            src="https://lh3.googleusercontent.com/aida/ADBb0uhqMN9kepFWp3Pr8-pFgjpMnaKZInKl7iPuAQpgOECAGaikL52BWvB9D8wgT6nMZNIFMs3mGzd0mxUucOyXVCL0w5TQDiN0cjQvoFG6hfYaGhNe_ybYkiL14BY8THv2tQ75dPj6c6lsPEJiwOgrsRVO0sXUihd__prWIDnGyrzT1PsAULDY-HLOrjRK9rEihLJneiP9Y_SVdNYSo75n4ZhatiUOgz0O1rU6VaGVXNkLcvxxbFuBgvgghvc" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INFO SECTION -->
+        <section class="py-xl bg-surface-container-low relative overflow-hidden" id="project-info">
+            <div class="container mx-auto px-md max-w-container-max relative z-10">
+                <div class="animate-reveal grid grid-cols-1 md:grid-cols-12 gap-lg">
+                    <div class="md:col-span-8">
+                        <h2 class="font-headline-lg text-headline-lg text-primary mb-base">Perspectiva General del
+                            Proyecto</h2>
+                        <div class="h-1.5 w-24 bg-secondary rounded-full mb-md"></div>
+                        <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                            RIHO_2 es una solución integral diseñada para la gestión proactiva de fallos y eventos en el
+                            ecosistema hospitalario. Enfocado en la reducción del tiempo de respuesta técnica, el
+                            sistema garantiza que la atención al paciente nunca se vea comprometida por deficiencias
+                            tecnológicas.
+                        </p>
+                        <div
+                            class="mt-lg flex items-center gap-sm p-6 rounded-2xl bg-white border border-outline-variant/50 shadow-sm transition-all">
+                            <span class="material-symbols-outlined text-secondary text-[32px]">school</span>
+                            <div>
+                                <p class="font-label-md text-secondary">Hito Académico</p>
+                                <p class="font-headline-sm text-headline-sm text-primary">Proyecto Final - Ingeniería de
+                                    Software 1</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:col-span-4 flex items-center justify-center">
+                        <div class="glass-panel p-md rounded-2xl w-full text-center bg-white/60">
+                            <div class="text-secondary mb-2">
+                                <span class="material-symbols-outlined text-[48px]"
+                                    style="font-variation-settings: 'FILL' 1;">analytics</span>
+                            </div>
+                            <h3 class="font-headline-sm text-headline-sm mb-xs">Estado Operativo</h3>
+                            <p class="font-body-sm text-on-surface-variant">Monitoreo en Tiempo Real y Analítica Activa
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURES SECTION -->
+        <section class="py-xl relative" id="features">
+            <div class="container mx-auto px-md max-w-container-max">
+                <div class="text-center mb-xl animate-reveal">
+                    <h2 class="font-headline-lg text-headline-lg text-primary">Capacidades Clave del Sistema</h2>
+                    <p class="font-body-md text-on-surface-variant mt-xs">Ingeniería de precisión para entornos de
+                        atención en salud.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter" id="features-grid">
+                    <div class="stagger-item glass-panel p-lg rounded-2xl group bg-white/40">
+                        <div
+                            class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center text-secondary mb-md group-hover:bg-secondary group-hover:text-white transition-all duration-500">
+                            <span class="material-symbols-outlined">bolt</span>
+                        </div>
+                        <h3 class="font-headline-sm text-headline-sm mb-base">Reportes en tiempo real</h3>
+                        <p class="font-body-sm text-on-surface-variant">Notificación instantánea de incidencias técnicas
+                            para una respuesta táctica inmediata.</p>
+                    </div>
+                    <div class="stagger-item glass-panel p-lg rounded-2xl group bg-white/40">
+                        <div
+                            class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center text-secondary mb-md group-hover:bg-secondary group-hover:text-white transition-all duration-500">
+                            <span class="material-symbols-outlined">sync</span>
+                        </div>
+                        <h3 class="font-headline-sm text-headline-sm mb-base">Continuidad operativa</h3>
+                        <p class="font-body-sm text-on-surface-variant">Garantía de flujo de trabajo ininterrumpido en
+                            entornos críticos de IPS.</p>
+                    </div>
+                    <div class="stagger-item glass-panel p-lg rounded-2xl group bg-white/40">
+                        <div
+                            class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center text-secondary mb-md group-hover:bg-secondary group-hover:text-white transition-all duration-500">
+                            <span class="material-symbols-outlined">shield_person</span>
+                        </div>
+                        <h3 class="font-headline-sm text-headline-sm mb-base">Protección de datos clínicos</h3>
+                        <p class="font-body-sm text-on-surface-variant">Seguridad de grado hospitalario para todos los
+                            registros de incidentes y datos de pacientes.</p>
+                    </div>
+                    <div class="stagger-item glass-panel p-lg rounded-2xl group bg-white/40">
+                        <div
+                            class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center text-secondary mb-md group-hover:bg-secondary group-hover:text-white transition-all duration-500">
+                            <span class="material-symbols-outlined">auto_graph</span>
+                        </div>
+                        <h3 class="font-headline-sm text-headline-sm mb-base">Optimización tecnológica</h3>
+                        <p class="font-body-sm text-on-surface-variant">Análisis de patrones para prevenir fallas
+                            recurrentes en la infraestructura técnica.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DOWNLOADS SECTION -->
+        <section
+            class="py-xl bg-gradient-to-br from-[#070f1e] to-[#0f1d32] text-white border-y border-white/5 relative overflow-hidden"
+            id="downloads">
+            <div
+                class="absolute w-[400px] h-[400px] rounded-full bg-secondary/15 blur-[100px] pointer-events-none -top-20 -right-20">
+            </div>
+            <div class="container mx-auto px-md max-w-container-max relative z-10 animate-reveal">
+                <div class="text-center mb-xl">
+                    <div
+                        class="inline-flex items-center px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-slate-300 font-label-sm mb-md">
+                        <span class="material-symbols-outlined text-[18px] mr-2 text-secondary">folder_shared</span>
+                        Repositorio de Evidencias
+                    </div>
+                    <h2 class="font-display-lg text-headline-lg text-white font-bold tracking-tight">Entregables del
+                        Proyecto</h2>
+                    <p class="font-body-md text-slate-400 mt-xs max-w-xl mx-auto">Consulta y descarga los componentes
+                        oficiales estipulados para la sustentación final.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-lg max-w-4xl mx-auto px-2">
+                    <div
+                        class="stagger-item bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] p-lg rounded-2xl flex flex-col justify-between group hover:border-secondary/40 transition-all duration-500 shadow-xl">
+                        <div class="mb-lg">
+                            <div class="flex justify-between items-start mb-md">
+                                <div
+                                    class="w-14 h-14 bg-white/[0.05] border border-white/[0.1] rounded-2xl flex items-center justify-center text-secondary transition-all duration-500">
+                                    <span class="material-symbols-outlined text-[28px]">archive</span>
+                                </div>
+                                <span
+                                    class="text-[11px] font-semibold tracking-wider uppercase px-2.5 py-1 bg-white/[0.05] border border-white/[0.08] rounded-md text-slate-400">Entregable
+                                    Oficial</span>
+                            </div>
+                            <h3 class="font-headline-md text-white mb-sm">Repositorio del Entregable</h3>
+                            <p class="font-body-sm text-slate-400 leading-relaxed">
+                                Acceso directo al espacio de almacenamiento de evidencias del proyecto. Diseñado
+                                estrictamente para la descarga y validación del empaquetado final de la aplicación.
+                            </p>
+                        </div>
+                        <a href="https://github.com/Juan112021/RIHO_2" target="_blank"
+                            class="shimmer-btn inline-flex items-center justify-center px-6 py-3.5 bg-secondary text-on-secondary font-label-md rounded-xl hover:bg-secondary-container transition-all gap-2 w-full">
+                            <span>Acceder al Repositorio</span>
+                            <span class="material-symbols-outlined text-[18px]">open_in_new</span>
+                        </a>
+                    </div>
+
+                    <div
+                        class="stagger-item bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] p-lg rounded-2xl flex flex-col justify-between group hover:border-white/20 transition-all duration-500 shadow-xl">
+                        <div class="mb-lg">
+                            <div class="flex justify-between items-start mb-md">
+                                <div
+                                    class="w-14 h-14 bg-white/[0.05] border border-white/[0.1] rounded-2xl flex items-center justify-center text-red-400 transition-all duration-500">
+                                    <span class="material-symbols-outlined text-[28px]">picture_as_pdf</span>
+                                </div>
+                                <span
+                                    class="text-[11px] font-semibold tracking-wider uppercase px-2.5 py-1 bg-red-500/10 border border-red-500/20 rounded-md text-red-300">Documentación</span>
+                            </div>
+                            <h3 class="font-headline-md text-white mb-sm">Informe Técnico Final</h3>
+                            <p class="font-body-sm text-slate-400 leading-relaxed">
+                                Descarga directa del documento de sustentación homologado (`RIHO_2_Final.pdf`), que
+                                recopila el análisis de requerimientos, diagramas de arquitectura y modelado de datos.
+                            </p>
+                        </div>
+                        <a href="pdf/RIHO_2_Final.pdf" download
+                            class="shimmer-btn inline-flex items-center justify-center px-6 py-3.5 bg-white text-primary font-label-md rounded-xl hover:bg-slate-100 transition-all gap-2 w-full">
+                            <span>Descargar PDF</span>
+                            <span class="material-symbols-outlined text-[18px]">download</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TEAM SECTION -->
+        <section class="py-xl bg-surface-container-highest/30 relative overflow-hidden" id="team">
+            <div class="container mx-auto px-md max-w-container-max text-center">
+                <h2 class="font-headline-lg text-headline-lg text-primary mb-xl animate-reveal">Desarrollado Por</h2>
+                <div class="max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-lg">
+                    <div class="animate-reveal stagger-item">
+                        <div class="relative group h-full">
+                            <div
+                                class="relative glass-panel p-lg rounded-2xl text-center h-full flex flex-col items-center justify-center bg-white/80">
+                                <div
+                                    class="w-24 h-24 bg-surface-container rounded-full mb-md overflow-hidden border-4 border-white shadow-xl">
+                                    <img alt="Juan Esteban Ospina Zapata" class="w-full h-full object-cover"
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDl2Utuk3XW8XrjMDj_7KOKOtei2ptZL1qg5kZ8BOYw_onyasYlvpkR6hoheNnyTMePHtQfnyNPT0eDY01nFGWMOLivvAoFQfPGLhFPGsj7_7gThUuAPWE7kqKC7YzNuKpX4ywQADE8cJPPoDAVTKGw8zROyftPQFhyHC13U7ZAX34lH4Wr8zxbw-ZZMU6CV_7v2Q-RyvgdZTES-3eU09yEuK3xu9KNDzDHxHc-6krJxJIxBt-hTH_48483ad08W0jS_8HeRUet9SE" />
+                                </div>
+                                <h3 class="font-headline-md text-headline-md text-primary">Juan Esteban Ospina Zapata
+                                </h3>
+                                <p class="text-secondary font-label-md mb-xs">Arquitecto de Software Principal</p>
+                                <p
+                                    class="font-body-sm text-on-surface-variant flex items-center justify-center gap-1 opacity-80">
+                                    <span class="material-symbols-outlined text-[16px]">account_balance</span>
+                                    Unilasallista
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="animate-reveal stagger-item">
+                        <div class="relative group h-full">
+                            <div
+                                class="relative glass-panel p-lg rounded-2xl text-center h-full flex flex-col items-center justify-center bg-white/80">
+                                <div
+                                    class="w-24 h-24 bg-surface-container rounded-full mb-md overflow-hidden border-4 border-white shadow-xl flex items-center justify-center">
+                                    <span
+                                        class="material-symbols-outlined text-[48px] text-on-surface-variant">person</span>
+                                </div>
+                                <h3 class="font-headline-md text-headline-md text-primary">Jeronimo Mesa Carvajal</h3>
+                                <p class="text-secondary font-label-md mb-xs">Ingeniería de Sistemas</p>
+                                <p
+                                    class="font-body-sm text-on-surface-variant flex items-center justify-center gap-1 opacity-80">
+                                    <span class="material-symbols-outlined text-[16px]">account_balance</span>
+                                    Unilasallista
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-surface-container-highest border-t border-outline-variant relative z-10">
+        <div
+            class="flex flex-col md:flex-row justify-between items-center w-full py-md px-lg max-w-container-max mx-auto gap-base">
+            <div class="flex items-center gap-base">
+                <span class="text-headline-sm font-headline-sm font-black text-primary">RIHO_2</span>
+                <span
+                    class="text-on-surface-variant text-body-sm hidden md:block border-l border-outline-variant pl-base">Sistemas
+                    Operativos</span>
+            </div>
+            <p class="text-on-surface-variant text-body-sm text-center md:text-left">
+                © 2024 RIHO_2 Sistemas Operativos. Todos los datos clínicos protegidos.
+            </p>
+            <div class="flex gap-md">
+                <a class="text-on-surface-variant text-label-sm hover:text-secondary transition-all" href="#">Política
+                    de Privacidad</a>
+                <a class="text-on-surface-variant text-label-sm hover:text-secondary transition-all"
+                    href="#">Términos</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sticky Header Window Scroll
+        const nav = document.getElementById('main-nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-md', 'bg-white/95');
+            } else {
+                nav.classList.remove('shadow-md', 'bg-white/95');
+            }
+        });
+    </script>
+</body>
+
+</html>
